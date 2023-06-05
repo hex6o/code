@@ -1,87 +1,73 @@
 #include<iostream>
 using namespace std;
-
-class hp
+class heap
 {
-   int heap[20],heap1[20],x,n1,i;
-   public:
-   hp()
-   { heap[0]=0;  heap1[0]=0;
-   } 
-   void getdata();
-   void insert1(int heap[],int);
-   void upadjust1(int heap[],int);
-   void insert2(int heap1[],int);
-   void upadjust2(int heap1[],int);
-   void minmax();
+    public:
+        int h1[20], h2[20];
+        int i=0, x;
+        int parent,temp;
+        void data();
+        void i1(int h1[], int i, int x);
+        void i2(int h2[], int i, int x);
 };
-void hp::getdata()
-{  
-   cout<<"\n enter the no. of students";
-   cin>>n1;
-   cout<<"\n enter the marks";
-   for(i=0;i<n1;i++)
-   {   cin>>x;
-       insert1(heap,x);
-       insert2(heap1,x);
-   }
-}
-void hp::insert1(int heap[20],int x)
+void heap::data()
 {
-   int n;
-   n=heap[0]; 
-   heap[n+1]=x;
-   heap[0]=n+1;
-  
-   upadjust1(heap,n+1);
+    int n;
+    cout<<"Enter no. of students: ";
+    cin>>n;
+    for(int count=0; count<n; count++)
+        {
+            cout<<"Enter marks of student: ";
+            cin>>x;
+            i=i+1;
+            i1(h1, i, x);
+            i2(h2, i, x);
+        }
 }
-void hp::upadjust1(int heap[20],int i)
+void heap:: i1(int h1[], int i, int x)
 {
-    int temp;
-    while(i>1 && heap[i]>heap[i/2])
+    h1[i]=x;
+    while(i>1)
     {
-       temp=heap[i];
-       heap[i]=heap[i/2];
-       heap[i/2]=temp;
-       i=i/2;
+        parent=i/2;
+        if(h1[parent]>h1[i])
+        {
+            temp=h1[parent];
+            h1[parent]=h1[i];
+            h1[i]=temp;
+            i=parent;
+        }
+        else
+        {
+            return;
+        }
     }
 }
-void hp::insert2(int heap1[20],int x)
+void heap:: i2(int h2[], int i, int x)
 {
-   int n;
-   n=heap1[0]; 
-   heap1[n+1]=x;
-   heap1[0]=n+1;
-  
-   upadjust2(heap1,n+1);
-}
-void hp::upadjust2(int heap1[20],int i)
-{
-    int temp1;
-    while(i>1 && heap1[i]<heap1[i/2])
+    h2[i]=x;
+    while(i>1)
     {
-       temp1=heap1[i];
-       heap1[i]=heap1[i/2];
-       heap1[i/2]=temp1;
-       i=i/2;
+        parent=i/2;
+        if(h2[parent]<h2[i])
+        {
+            temp=h2[parent];
+            h2[parent]=h2[i];
+            h2[i]=temp;
+            i=parent;
+        }
+        else
+        {
+            return;
+        }
     }
-}
-void hp::minmax()
-{
-   cout<<"\n max marks"<<heap[1];
-   cout<<"\n";
-   for(i=0;i<=n1;i++)
-   {   cout<<"\n"<<heap[i];  }
-   cout<<"\n min marks"<<heap1[1];
-   cout<<"\n";
-   for(i=0;i<=n1;i++)
-   {   cout<<"\n"<<heap1[i];  }
 }
 int main()
-{  
-  hp h;
-  h.getdata();
-  h.minmax();
-  return 0;
+{
+    heap obj;
+    obj.data();
+    cout<<"Minimum Marks:"<<obj.h1[1]<<endl;
+    cout<<"Maximum Marks:"<<obj.h2[1]<<endl;
+    return 0;
 }
 
