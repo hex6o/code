@@ -1,73 +1,109 @@
-#include <iostream>
+/*There are flight paths between cities. If there is a flight between city A and city B then
+there is an edge between the cities. The cost of the edge can be the time that flight take
+to reach city B from A, or the amount of fuel used for the journey. Represent this as a
+graph. The node can be represented by airport name or name of the city. Use adjacency
+list representation of the graph or use adjacency matrix representation of the graph.
+Check whether the graph is connected or not. Justify the storage representation used. */
+#include<iostream>
+#include<cstring>
 using namespace std;
-#define max 10
 
-class airport{
-    string city[max];
-    int distance [max][max];
+class flight{
     public:
-        int n;
-        
-        airport(){
-            for (int i = 0 ; i<max ; i++){
-                for(int j = 0 ; j<max ; j++){
-                    distance[i][j]=0;
-                }
-            }
-            for (int i=0 ; i<max ; i++){
-                city[i]="ABC";
+    int dist[10][10],num;
+    string cities[10];
+    char ch;
+    
+    flight()
+    {
+        for(int i=0;i<10;i++)
+        {
+            for(int j=0;j<10;j++)
+            {
+                dist[i][j]==-1;
             }
         }
-        
-        void input(){
-            
-            cout<<"Enter the no of cities : "<<endl;
-            cin>>n;
-            for (int i=0 ; i<n ; i++){
-                cout<<"Enter the name of the city : "<<endl;
-                cin>>city[i];
-            }
-            for (int i=0 ; i<n ; i++){
-                for (int j=0 ; j<n ; j++){
-                    
-                    if(i==j){
-                        break;
+    }
+    
+    void add_city()
+    {
+        cout<<"\nEnter the number of cities: ";
+        cin>>num;
+        for(int i=1;i<=num;i++)
+        {
+            cout<<"\nEnter the name of city "<<i<<": ";
+            cin>>cities[i];
+        }
+    }
+    
+    void route()
+    {
+        for(int i=1;i<=num;i++)
+        {
+            for(int j=i;j<=num;j++)
+            {
+                if(i==j)
+                {
+                    dist[i][j]=0;
+                }
+                else
+                {
+                    cout<<"\nis there path between cities "<<i<<" and "<<j<<"?(y/n): ";
+                    cin>>ch;
+                    if(ch=='y'||ch=='Y')
+                    {
+                        cout<<"\nEnter distance between cities: ";
+                        cin>>dist[i][j];
+                        dist[j][i]=dist[i][j];
                     }
-                    else{
-                        cout<<"Enter the distance between "<<city[i]<<" and "<<city[j]<<": ";
-                        cin>>distance[i][j];
-                        distance[j][i] = distance[i][j];
-                        }
-                        
+                    else
+                    {
+                        dist[i][j]=dist[j][i]=-1;
+                    }
                 }
             }
         }
-        
-        void display(){
-            cout<<endl;
-            cout<<"\t";
-            for (int i = 0 ; i<n ; i++){
-                cout<<city[i]<<"\t";
-            }
-            cout<<endl;
-            
-            for (int i = 0 ; i<n ; i++){
-                cout<<city[i]<<"\t";
-                
-                for(int j = 0 ; j<n ; j++){
-                    cout<<distance[i][j]<<"\t";
-                }
-                cout<<"\t"<<endl;
-            }
-            
+    }
+    
+    void display()
+    {
+        cout<<"\ndistance matrix:\n";
+        for(int i=1;i<=num;i++)
+        {
+            cout<<"\t"<<cities[i];
         }
-};
+        cout<<endl;
+        for(int i=1;i<=num;i++)
+        {
+            cout<<cities[i];
+            for(int j=1;j<=num;j++)
+            {
+                cout<<"\t"<<dist[i][j];
+            }
+            cout<<"\n";
+        }
+    }
+}f;
 
 int main()
 {
-    airport obj;
-    obj.input();
-    obj.display();
-
+    int ch;
+    do
+    {
+        cout<<"\n1.Enter data\n2.display routes\n3.exit\n";
+        cin>>ch;
+        switch(ch)
+        {
+            case 1:
+                f.add_city();
+                f.route();
+                break;
+            case 2:
+                f.display();
+                break;
+            case 3:
+                break;
+        }
+    }while(ch!=3);
     return 0;
 }
